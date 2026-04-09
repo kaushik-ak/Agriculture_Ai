@@ -1,0 +1,625 @@
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Hindi&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap');
+  *{margin:0;padding:0;box-sizing:border-box}
+  :root{
+    --green:#2d6a4f;--green2:#40916c;--green3:#74c69d;--green4:#d8f3dc;
+    --amber:#b5460a;--amber2:#e76f1b;--amber3:#f4a261;--amber4:#fff3e0;
+    --bg:#f7faf7;--card:#fff;--text:#1a2e1a;--muted:#5a7060;
+    --border:#d4e8d4;--sidebar-w:230px;--header-h:64px;
+  }
+  body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+  /* HEADER */
+  .header{position:sticky;top:0;z-index:100;height:var(--header-h);background:var(--green);display:flex;align-items:center;padding:0 20px;gap:14px;box-shadow:0 2px 8px rgba(0,0,0,0.15)}
+  .header-logo{width:40px;height:40px;background:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+  .header-title{color:#fff}
+  .header-title h1{font-size:17px;font-weight:600;line-height:1.2}
+  .header-title p{font-size:11px;opacity:.8}
+  .header-right{margin-left:auto;display:flex;gap:10px;align-items:center}
+  .hbtn{background:rgba(255,255,255,0.15);color:#fff;border:1px solid rgba(255,255,255,0.3);padding:6px 14px;border-radius:20px;font-size:12px;cursor:pointer;font-family:inherit}
+  .hbtn:hover{background:rgba(255,255,255,0.25)}
+  .hbtn.primary{background:var(--amber2);border-color:var(--amber2)}
+  /* LAYOUT */
+  .layout{display:flex;min-height:calc(100vh - var(--header-h))}
+  /* SIDEBAR */
+  .sidebar{width:var(--sidebar-w);background:#fff;border-right:1px solid var(--border);padding:16px 0;flex-shrink:0;position:sticky;top:var(--header-h);height:calc(100vh - var(--header-h));overflow-y:auto}
+  .sb-section{padding:8px 16px 4px;font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em}
+  .sb-item{display:flex;align-items:center;gap:10px;padding:9px 16px;cursor:pointer;font-size:13px;color:var(--text);border-left:3px solid transparent;transition:all .15s}
+  .sb-item:hover{background:var(--green4);color:var(--green)}
+  .sb-item.active{background:var(--green4);color:var(--green);border-left-color:var(--green);font-weight:500}
+  .sb-icon{font-size:15px;width:20px;text-align:center}
+  .sb-divider{height:1px;background:var(--border);margin:8px 16px}
+  /* MAIN */
+  .main{flex:1;padding:24px;overflow-y:auto;max-width:900px}
+  /* SECTIONS */
+  .section{display:none}
+  .section.active{display:block}
+  /* HOME */
+  .hero{background:linear-gradient(135deg,var(--green) 0%,var(--green2) 100%);border-radius:14px;padding:28px;color:#fff;margin-bottom:20px;position:relative;overflow:hidden}
+  .hero::after{content:'🌾';position:absolute;right:20px;bottom:-10px;font-size:80px;opacity:.15}
+  .hero h2{font-size:22px;font-weight:600;margin-bottom:6px}
+  .hero p{font-size:14px;opacity:.9;max-width:460px;line-height:1.6}
+  .hero-btns{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
+  .hero-btn{padding:8px 18px;border-radius:20px;font-size:13px;cursor:pointer;font-family:inherit;font-weight:500;border:none}
+  .hero-btn.white{background:#fff;color:var(--green)}
+  .hero-btn.outline{background:transparent;border:1px solid rgba(255,255,255,0.6);color:#fff}
+  .cards-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px;margin-bottom:20px}
+  .stat-card{background:#fff;border:1px solid var(--border);border-radius:10px;padding:16px;cursor:pointer;transition:.15s}
+  .stat-card:hover{border-color:var(--green2);transform:translateY(-2px)}
+  .stat-icon{font-size:22px;margin-bottom:8px}
+  .stat-num{font-size:22px;font-weight:600;color:var(--green);line-height:1}
+  .stat-label{font-size:12px;color:var(--muted);margin-top:3px}
+  .news-section h3{font-size:16px;font-weight:500;margin-bottom:12px}
+  .news-item{background:#fff;border:1px solid var(--border);border-radius:8px;padding:14px;margin-bottom:10px;display:flex;gap:12px;align-items:flex-start}
+  .news-badge{background:var(--green4);color:var(--green);font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px;white-space:nowrap;flex-shrink:0}
+  .news-text h4{font-size:13px;font-weight:500;margin-bottom:3px}
+  .news-text p{font-size:12px;color:var(--muted);line-height:1.5}
+  /* POLICIES */
+  .policy-filter{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+  .pf-btn{padding:6px 14px;border-radius:16px;border:1px solid var(--border);background:#fff;font-size:12px;cursor:pointer;font-family:inherit;color:var(--muted);transition:.15s}
+  .pf-btn.active,.pf-btn:hover{background:var(--green);color:#fff;border-color:var(--green)}
+  .policy-card{background:#fff;border:1px solid var(--border);border-radius:10px;padding:18px;margin-bottom:12px;cursor:pointer;transition:.15s}
+  .policy-card:hover{border-color:var(--green2)}
+  .policy-header{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+  .policy-tag{font-size:10px;font-weight:600;padding:3px 10px;border-radius:10px;white-space:nowrap}
+  .tag-subsidy{background:#e8f5e9;color:#2e7d32}
+  .tag-loan{background:#e3f2fd;color:#1565c0}
+  .tag-insurance{background:#fff3e0;color:#e65100}
+  .tag-infra{background:#f3e5f5;color:#6a1b9a}
+  .tag-crop{background:#e0f7fa;color:#006064}
+  .policy-card h4{font-size:14px;font-weight:500;margin-bottom:4px}
+  .policy-card p{font-size:12px;color:var(--muted);line-height:1.5}
+  .policy-meta{display:flex;gap:12px;margin-top:10px;font-size:11px;color:var(--muted)}
+  .policy-detail{display:none;background:var(--bg);border-radius:8px;padding:14px;margin-top:10px;font-size:13px;line-height:1.7}
+  .policy-detail.open{display:block}
+  .policy-detail ul{padding-left:18px;margin-top:6px}
+  .policy-detail li{margin-bottom:4px;color:var(--muted)}
+  /* CROP DOCTOR */
+  .upload-zone{border:2px dashed var(--green3);border-radius:12px;padding:32px;text-align:center;background:#fff;cursor:pointer;transition:.2s;position:relative}
+  .upload-zone:hover,.upload-zone.drag{border-color:var(--green);background:var(--green4)}
+  .upload-zone input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+  .upload-icon{font-size:40px;margin-bottom:10px}
+  .upload-text h3{font-size:15px;font-weight:500;margin-bottom:4px}
+  .upload-text p{font-size:13px;color:var(--muted)}
+  .preview-img{width:100%;max-height:260px;object-fit:cover;border-radius:10px;margin:14px 0}
+  .analyze-btn{width:100%;padding:12px;background:var(--green);color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:500;cursor:pointer;font-family:inherit;transition:.15s}
+  .analyze-btn:hover{background:var(--green2)}
+  .analyze-btn:disabled{opacity:.6;cursor:not-allowed}
+  .result-card{background:#fff;border:1px solid var(--border);border-radius:10px;padding:18px;margin-top:16px}
+  .result-header{display:flex;gap:12px;align-items:center;margin-bottom:12px}
+  .result-icon{font-size:28px}
+  .result-title h3{font-size:15px;font-weight:600}
+  .result-title p{font-size:12px;color:var(--muted)}
+  .result-section{margin-bottom:12px}
+  .result-section h4{font-size:13px;font-weight:600;color:var(--green);margin-bottom:6px}
+  .result-section p{font-size:13px;color:var(--muted);line-height:1.6}
+  .remedy-list{list-style:none;padding:0}
+  .remedy-list li{font-size:13px;color:var(--muted);padding:5px 0;border-bottom:1px solid var(--border);display:flex;gap:8px}
+  .remedy-list li:last-child{border:none}
+  .remedy-list li::before{content:"→";color:var(--green);flex-shrink:0}
+  .loading-dots{display:inline-flex;gap:4px;margin-left:6px}
+  .dot{width:6px;height:6px;background:currentColor;border-radius:50%;animation:bounce 1.2s infinite}
+  .dot:nth-child(2){animation-delay:.2s}
+  .dot:nth-child(3){animation-delay:.4s}
+  @keyframes bounce{0%,80%,100%{transform:translateY(0)}40%{transform:translateY(-6px)}}
+  /* CHATBOT */
+  .chat-container{display:flex;flex-direction:column;height:calc(100vh - var(--header-h) - 100px);background:#fff;border:1px solid var(--border);border-radius:12px;overflow:hidden}
+  .chat-header{padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;background:var(--green4)}
+  .chat-avatar{width:36px;height:36px;background:var(--green);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px}
+  .chat-name h4{font-size:14px;font-weight:500}
+  .chat-name p{font-size:11px;color:var(--green);display:flex;align-items:center;gap:4px}
+  .online-dot{width:7px;height:7px;background:#22c55e;border-radius:50%}
+  .chat-msgs{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px}
+  .msg{max-width:78%;display:flex;flex-direction:column;gap:3px}
+  .msg.bot{align-self:flex-start}
+  .msg.user{align-self:flex-end}
+  .msg-bubble{padding:10px 14px;border-radius:12px;font-size:13px;line-height:1.6}
+  .msg.bot .msg-bubble{background:var(--bg);border:1px solid var(--border);border-bottom-left-radius:3px;color:var(--text)}
+  .msg.user .msg-bubble{background:var(--green);color:#fff;border-bottom-right-radius:3px}
+  .msg-time{font-size:10px;color:var(--muted)}
+  .msg.user .msg-time{text-align:right}
+  .chat-input{border-top:1px solid var(--border);padding:12px 14px;display:flex;gap:10px}
+  .chat-input input{flex:1;border:1px solid var(--border);border-radius:20px;padding:9px 16px;font-size:13px;font-family:inherit;outline:none;background:var(--bg);color:var(--text)}
+  .chat-input input:focus{border-color:var(--green)}
+  .send-btn{width:38px;height:38px;border-radius:50%;background:var(--green);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;transition:.15s}
+  .send-btn:hover{background:var(--green2)}
+  .quick-btns{display:flex;gap:7px;flex-wrap:wrap;padding:0 14px 10px}
+  .q-btn{padding:5px 12px;border-radius:14px;border:1px solid var(--green3);background:#fff;font-size:11px;cursor:pointer;font-family:inherit;color:var(--green);transition:.15s;white-space:nowrap}
+  .q-btn:hover{background:var(--green4)}
+  /* WEATHER */
+  .weather-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-bottom:20px}
+  .w-card{background:#fff;border:1px solid var(--border);border-radius:10px;padding:16px;text-align:center}
+  .w-card .w-icon{font-size:30px;margin-bottom:6px}
+  .w-card .w-val{font-size:22px;font-weight:600;color:var(--green)}
+  .w-card .w-label{font-size:12px;color:var(--muted);margin-top:2px}
+  /* MARKET */
+  .mkt-table{width:100%;border-collapse:collapse;background:#fff;border-radius:10px;overflow:hidden;border:1px solid var(--border)}
+  .mkt-table th{background:var(--green4);padding:10px 14px;text-align:left;font-size:12px;font-weight:600;color:var(--green)}
+  .mkt-table td{padding:10px 14px;font-size:13px;border-bottom:1px solid var(--border);color:var(--text)}
+  .mkt-table tr:last-child td{border:none}
+  .mkt-table tr:hover td{background:var(--bg)}
+  .price-up{color:#16a34a;font-weight:500}
+  .price-down{color:#dc2626;font-weight:500}
+  /* PAGE TITLE */
+  .page-title{margin-bottom:20px}
+  .page-title h2{font-size:20px;font-weight:600}
+  .page-title p{font-size:13px;color:var(--muted);margin-top:3px}
+  /* SCHEMES SEARCH */
+  .search-bar{display:flex;gap:10px;margin-bottom:16px}
+  .search-bar input{flex:1;padding:10px 16px;border:1px solid var(--border);border-radius:8px;font-size:13px;font-family:inherit;outline:none;background:#fff;color:var(--text)}
+  .search-bar input:focus{border-color:var(--green)}
+  /* SCROLLBAR */
+  ::-webkit-scrollbar{width:5px}
+  ::-webkit-scrollbar-track{background:transparent}
+  ::-webkit-scrollbar-thumb{background:var(--green3);border-radius:3px}
+  .badge-new{background:#fef3c7;color:#92400e;font-size:10px;padding:2px 7px;border-radius:8px;margin-left:6px;font-weight:600}
+</style>
+
+<div class="header">
+  <div class="header-logo">🌿</div>
+  <div class="header-title">
+    <h1>Kisan Seva Portal</h1>
+    <p>भारत सरकार कृषि सेवा • Government Agriculture Services</p>
+  </div>
+  <div class="header-right">
+    <button class="hbtn" onclick="nav('weather')">🌦 Weather</button>
+    <button class="hbtn" onclick="nav('market')">📈 Mandi</button>
+    <button class="hbtn primary" onclick="nav('chatbot')">💬 Kisan Helpline</button>
+  </div>
+</div>
+
+<div class="layout">
+  <div class="sidebar">
+    <div class="sb-section">Main Menu</div>
+    <div class="sb-item active" onclick="nav('home')" id="sb-home"><span class="sb-icon">🏠</span> Dashboard</div>
+    <div class="sb-item" onclick="nav('cropdr')" id="sb-cropdr"><span class="sb-icon">🔬</span> AI Crop Doctor<span class="badge-new">AI</span></div>
+    <div class="sb-item" onclick="nav('chatbot')" id="sb-chatbot"><span class="sb-icon">💬</span> Kisan Chatbot</div>
+
+    <div class="sb-divider"></div>
+    <div class="sb-section">Government Schemes</div>
+    <div class="sb-item" onclick="nav('policies')" id="sb-policies"><span class="sb-icon">📜</span> All Schemes</div>
+    <div class="sb-item" onclick="nav('pm')" id="sb-pm"><span class="sb-icon">🌾</span> PM-KISAN</div>
+    <div class="sb-item" onclick="nav('pmfby')" id="sb-pmfby"><span class="sb-icon">🛡</span> PM Fasal Bima</div>
+    <div class="sb-item" onclick="nav('kcc')" id="sb-kcc"><span class="sb-icon">💳</span> Kisan Credit Card</div>
+
+    <div class="sb-divider"></div>
+    <div class="sb-section">Tools & Info</div>
+    <div class="sb-item" onclick="nav('weather')" id="sb-weather"><span class="sb-icon">🌦</span> Weather & Advisory</div>
+    <div class="sb-item" onclick="nav('market')" id="sb-market"><span class="sb-icon">📊</span> Mandi Prices</div>
+    <div class="sb-item" onclick="nav('soil')" id="sb-soil"><span class="sb-icon">🧪</span> Soil Health</div>
+
+    <div class="sb-divider"></div>
+    <div class="sb-section">Help</div>
+    <div class="sb-item" onclick="nav('helpline')" id="sb-helpline"><span class="sb-icon">📞</span> Helpline Numbers</div>
+  </div>
+
+  <div class="main">
+
+    <!-- HOME -->
+    <div class="section active" id="sec-home">
+      <div class="hero">
+        <h2>Welcome to Kisan Seva Portal 🌱</h2>
+        <p>Your one-stop portal for government schemes, AI crop diagnosis, real-time mandi prices, and expert farming advice.</p>
+        <div class="hero-btns">
+          <button class="hero-btn white" onclick="nav('cropdr')">🔬 Diagnose Crop Disease</button>
+          <button class="hero-btn outline" onclick="nav('policies')">📜 View Schemes</button>
+          <button class="hero-btn outline" onclick="nav('chatbot')">💬 Ask Kisan Bot</button>
+        </div>
+      </div>
+      <div class="cards-grid">
+        <div class="stat-card" onclick="nav('policies')"><div class="stat-icon">📜</div><div class="stat-num">28+</div><div class="stat-label">Active Govt Schemes</div></div>
+        <div class="stat-card" onclick="nav('market')"><div class="stat-icon">🌾</div><div class="stat-num">₹2,183</div><div class="stat-label">Wheat MSP / Quintal</div></div>
+        <div class="stat-card" onclick="nav('pm')"><div class="stat-icon">💰</div><div class="stat-num">₹6,000</div><div class="stat-label">PM-KISAN Annual</div></div>
+        <div class="stat-card" onclick="nav('cropdr')"><div class="stat-icon">🔬</div><div class="stat-num">AI</div><div class="stat-label">Crop Disease Scan</div></div>
+      </div>
+      <div class="news-section">
+        <h3>Latest Updates</h3>
+        <div class="news-item"><span class="news-badge">NEW</span><div class="news-text"><h4>PM-KISAN 17th Instalment Released</h4><p>₹2,000 transferred to 9.3 crore farmers directly to bank accounts. Check your status on the portal.</p></div></div>
+        <div class="news-item"><span class="news-badge">ADVISORY</span><div class="news-text"><h4>Rabi Crop Sowing Advisory 2024-25</h4><p>ICAR recommends early sowing of wheat in North India due to weather forecast changes. Optimal sowing window: Oct 25 – Nov 15.</p></div></div>
+        <div class="news-item"><span class="news-badge">SCHEME</span><div class="news-text"><h4>Soil Health Card Scheme Expanded</h4><p>All farmers can now get free soil testing at nearest KVK. Over 22 crore soil health cards distributed nationwide.</p></div></div>
+        <div class="news-item"><span class="news-badge">PRICE</span><div class="news-text"><h4>MSP Increased for Kharif 2025</h4><p>Cabinet approves MSP hike for 14 Kharif crops. Paddy MSP raised to ₹2,300/quintal, cotton to ₹7,121/quintal.</p></div></div>
+      </div>
+    </div>
+
+    <!-- AI CROP DOCTOR -->
+    <div class="section" id="sec-cropdr">
+      <div class="page-title"><h2>🔬 AI Crop Doctor</h2><p>Upload a photo of your crop and our AI will identify diseases and provide solutions</p></div>
+      <div class="upload-zone" id="uploadZone" onclick="document.getElementById('fileInput').click()">
+        <input type="file" id="fileInput" accept="image/*" style="display:none" onchange="handleFile(event)">
+        <div class="upload-icon">📷</div>
+        <div class="upload-text"><h3>Upload Crop Photo</h3><p>Click or drag & drop an image of your crop (JPG, PNG)</p><p style="font-size:11px;color:var(--muted);margin-top:6px">Supports: leaves, stem, fruit, root diseases</p></div>
+      </div>
+      <div id="previewArea" style="display:none;margin-top:14px">
+        <img id="previewImg" class="preview-img" alt="Crop preview">
+        <button class="analyze-btn" id="analyzeBtn" onclick="analyzeCrop()">🔍 Analyze with AI</button>
+      </div>
+      <div id="resultArea"></div>
+    </div>
+
+    <!-- CHATBOT -->
+    <div class="section" id="sec-chatbot">
+      <div class="page-title"><h2>💬 Kisan AI Assistant</h2><p>Ask anything about farming, schemes, weather, or crop management</p></div>
+      <div class="chat-container">
+        <div class="chat-header">
+          <div class="chat-avatar">🌱</div>
+          <div class="chat-name"><h4>Kisan AI Assistant</h4><p><span class="online-dot"></span> Online • Powered by AI</p></div>
+        </div>
+        <div class="chat-msgs" id="chatMsgs">
+          <div class="msg bot"><div class="msg-bubble">Namaste! 🙏 I am your Kisan AI Assistant. I can help you with:<br><br>• Government schemes & eligibility<br>• Crop diseases & solutions<br>• Fertilizer & irrigation advice<br>• Mandi prices & MSP rates<br>• Loan & subsidy queries<br><br>How can I help you today?</div><div class="msg-time">Just now</div></div>
+        </div>
+        <div class="quick-btns" id="quickBtns">
+          <button class="q-btn" onclick="sendQuick('What is PM-KISAN scheme?')">PM-KISAN scheme</button>
+          <button class="q-btn" onclick="sendQuick('How to apply for Kisan Credit Card?')">Kisan Credit Card</button>
+          <button class="q-btn" onclick="sendQuick('What are the symptoms of rice blast disease?')">Rice blast disease</button>
+          <button class="q-btn" onclick="sendQuick('Best fertilizer for wheat crop?')">Wheat fertilizer</button>
+          <button class="q-btn" onclick="sendQuick('How to get soil health card?')">Soil Health Card</button>
+        </div>
+        <div class="chat-input">
+          <input type="text" id="chatInput" placeholder="Type your question... (e.g. PM-KISAN eligibility)" onkeydown="if(event.key==='Enter')sendChat()">
+          <button class="send-btn" onclick="sendChat()">➤</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ALL POLICIES -->
+    <div class="section" id="sec-policies">
+      <div class="page-title"><h2>📜 Government Agricultural Schemes</h2><p>All central government schemes for Indian farmers</p></div>
+      <div class="search-bar"><input type="text" placeholder="Search schemes..." oninput="filterPolicies(this.value)" id="policySearch"></div>
+      <div class="policy-filter">
+        <button class="pf-btn active" onclick="filterCat('all',this)">All</button>
+        <button class="pf-btn" onclick="filterCat('subsidy',this)">Subsidy</button>
+        <button class="pf-btn" onclick="filterCat('loan',this)">Loan & Credit</button>
+        <button class="pf-btn" onclick="filterCat('insurance',this)">Insurance</button>
+        <button class="pf-btn" onclick="filterCat('infra',this)">Infrastructure</button>
+        <button class="pf-btn" onclick="filterCat('crop',this)">Crop Support</button>
+      </div>
+      <div id="policyList"></div>
+    </div>
+
+    <!-- PM-KISAN -->
+    <div class="section" id="sec-pm">
+      <div class="page-title"><h2>🌾 PM-KISAN Scheme</h2><p>Pradhan Mantri Kisan Samman Nidhi — Direct income support for farmers</p></div>
+      <div style="background:#fff;border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:16px">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin-bottom:16px">
+          <div style="text-align:center;padding:14px;background:var(--green4);border-radius:8px"><div style="font-size:20px;font-weight:700;color:var(--green)">₹6,000</div><div style="font-size:11px;color:var(--muted)">Annual Benefit</div></div>
+          <div style="text-align:center;padding:14px;background:#e3f2fd;border-radius:8px"><div style="font-size:20px;font-weight:700;color:#1565c0">3</div><div style="font-size:11px;color:var(--muted)">Instalments/Year</div></div>
+          <div style="text-align:center;padding:14px;background:#fff3e0;border-radius:8px"><div style="font-size:20px;font-weight:700;color:#e65100">9.3 Cr</div><div style="font-size:11px;color:var(--muted)">Beneficiaries</div></div>
+        </div>
+        <h4 style="margin-bottom:10px;font-size:14px">Eligibility Criteria</h4>
+        <ul style="font-size:13px;color:var(--muted);padding-left:18px;line-height:2">
+          <li>All landholding farmer families in India</li>
+          <li>Must have valid Aadhaar card</li>
+          <li>Bank account linked with Aadhaar (DBT enabled)</li>
+          <li>Land records must be updated in state revenue records</li>
+          <li>Excludes: Income tax payers, govt employees, pension >₹10,000/month</li>
+        </ul>
+        <h4 style="margin:14px 0 10px;font-size:14px">How to Apply</h4>
+        <ul style="font-size:13px;color:var(--muted);padding-left:18px;line-height:2">
+          <li>Visit pmkisan.gov.in or nearest Common Service Centre (CSC)</li>
+          <li>Register with Aadhaar, mobile number & land details</li>
+          <li>Submit land records from state portal</li>
+          <li>Money transferred directly to bank account</li>
+        </ul>
+        <button style="margin-top:14px;padding:9px 20px;background:var(--green);color:#fff;border:none;border-radius:8px;font-size:13px;cursor:pointer;font-family:inherit" onclick="nav('chatbot')">💬 Ask about PM-KISAN</button>
+      </div>
+    </div>
+
+    <!-- PMFBY -->
+    <div class="section" id="sec-pmfby">
+      <div class="page-title"><h2>🛡 PM Fasal Bima Yojana</h2><p>Pradhan Mantri Fasal Bima Yojana — Crop insurance for risk protection</p></div>
+      <div style="background:#fff;border:1px solid var(--border);border-radius:12px;padding:20px">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin-bottom:16px">
+          <div style="text-align:center;padding:14px;background:#e8f5e9;border-radius:8px"><div style="font-size:18px;font-weight:700;color:#2e7d32">1.5-2%</div><div style="font-size:11px;color:var(--muted)">Premium (Kharif)</div></div>
+          <div style="text-align:center;padding:14px;background:#e3f2fd;border-radius:8px"><div style="font-size:18px;font-weight:700;color:#1565c0">1.5%</div><div style="font-size:11px;color:var(--muted)">Premium (Rabi)</div></div>
+          <div style="text-align:center;padding:14px;background:#fce4ec;border-radius:8px"><div style="font-size:18px;font-weight:700;color:#c62828">5%</div><div style="font-size:11px;color:var(--muted)">Annual Crops</div></div>
+        </div>
+        <h4 style="margin-bottom:8px;font-size:14px">Coverage</h4>
+        <ul style="font-size:13px;color:var(--muted);padding-left:18px;line-height:2">
+          <li>Natural fire & lightning, storm, hailstorm, cyclone</li>
+          <li>Flood, inundation, landslide</li>
+          <li>Drought, dry spells, pests & diseases</li>
+          <li>Post-harvest losses (up to 14 days)</li>
+        </ul>
+        <h4 style="margin:14px 0 8px;font-size:14px">Covered Crops</h4>
+        <p style="font-size:13px;color:var(--muted);line-height:1.7">Food crops (cereals, millets, pulses), Oilseeds, Annual commercial/horticultural crops. State governments notify specific crops each season.</p>
+        <button style="margin-top:14px;padding:9px 20px;background:var(--green);color:#fff;border:none;border-radius:8px;font-size:13px;cursor:pointer;font-family:inherit" onclick="nav('chatbot')">💬 Claim Process Query</button>
+      </div>
+    </div>
+
+    <!-- KCC -->
+    <div class="section" id="sec-kcc">
+      <div class="page-title"><h2>💳 Kisan Credit Card</h2><p>Short-term credit for agricultural needs at subsidized rates</p></div>
+      <div style="background:#fff;border:1px solid var(--border);border-radius:12px;padding:20px">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin-bottom:16px">
+          <div style="text-align:center;padding:14px;background:var(--green4);border-radius:8px"><div style="font-size:18px;font-weight:700;color:var(--green)">4%</div><div style="font-size:11px;color:var(--muted)">Interest Rate</div></div>
+          <div style="text-align:center;padding:14px;background:#e3f2fd;border-radius:8px"><div style="font-size:18px;font-weight:700;color:#1565c0">₹3L</div><div style="font-size:11px;color:var(--muted)">Max Short Term</div></div>
+          <div style="text-align:center;padding:14px;background:#fff3e0;border-radius:8px"><div style="font-size:18px;font-weight:700;color:#e65100">7.7 Cr</div><div style="font-size:11px;color:var(--muted)">Card Holders</div></div>
+        </div>
+        <h4 style="margin-bottom:8px;font-size:14px">Eligible Expenses</h4>
+        <ul style="font-size:13px;color:var(--muted);padding-left:18px;line-height:2">
+          <li>Purchase of seeds, fertilizers, pesticides</li>
+          <li>Land preparation & crop maintenance</li>
+          <li>Post-harvest expenses & farm equipment</li>
+          <li>Consumption needs of farmer household</li>
+          <li>Allied activities: fisheries, animal husbandry</li>
+        </ul>
+        <h4 style="margin:14px 0 8px;font-size:14px">Apply at</h4>
+        <p style="font-size:13px;color:var(--muted)">Any nationalized bank, cooperative bank, or regional rural bank. Carry land records, Aadhaar, and passport photo.</p>
+      </div>
+    </div>
+
+    <!-- WEATHER -->
+    <div class="section" id="sec-weather">
+      <div class="page-title"><h2>🌦 Weather & Crop Advisory</h2><p>Real-time weather conditions and farming advisories</p></div>
+      <div style="background:#fff;border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:16px">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px"><span style="font-size:36px">⛅</span><div><div style="font-size:26px;font-weight:700;color:var(--green)">28°C</div><div style="font-size:13px;color:var(--muted)">Partly Cloudy • North India</div></div></div>
+        <div class="weather-grid">
+          <div class="w-card"><div class="w-icon">💧</div><div class="w-val">62%</div><div class="w-label">Humidity</div></div>
+          <div class="w-card"><div class="w-icon">💨</div><div class="w-val">14 km/h</div><div class="w-label">Wind Speed</div></div>
+          <div class="w-card"><div class="w-icon">🌧</div><div class="w-val">20%</div><div class="w-label">Rain Chance</div></div>
+          <div class="w-card"><div class="w-icon">☀️</div><div class="w-val">UV: 6</div><div class="w-label">UV Index</div></div>
+        </div>
+      </div>
+      <div style="background:#fff;border:1px solid var(--border);border-radius:12px;padding:16px">
+        <h3 style="font-size:15px;font-weight:500;margin-bottom:12px">Crop Advisory for Current Weather</h3>
+        <div style="font-size:13px;color:var(--muted);line-height:1.8">
+          <div style="padding:10px;background:#e8f5e9;border-radius:8px;margin-bottom:8px;border-left:3px solid var(--green2)">🌾 <strong>Wheat:</strong> Good conditions for sowing. Soil moisture adequate. Apply basal dose of DAP before sowing.</div>
+          <div style="padding:10px;background:#fff3e0;border-radius:8px;margin-bottom:8px;border-left:3px solid #f4a261">🌿 <strong>Mustard:</strong> Moderate risk of aphid attack. Monitor fields. Spray imidacloprid if aphid population exceeds threshold.</div>
+          <div style="padding:10px;background:#e3f2fd;border-radius:8px;border-left:3px solid #90caf9">🥔 <strong>Potato:</strong> Risk of late blight due to humidity. Spray mancozeb 75% WP as preventive measure.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MARKET PRICES -->
+    <div class="section" id="sec-market">
+      <div class="page-title"><h2>📊 Mandi Price Rates</h2><p>Latest MSP and market prices across India</p></div>
+      <table class="mkt-table">
+        <thead><tr><th>Crop</th><th>Market</th><th>Price (₹/Quintal)</th><th>MSP (₹/Quintal)</th><th>Change</th></tr></thead>
+        <tbody>
+          <tr><td>🌾 Wheat</td><td>Delhi</td><td>2,340</td><td>2,183</td><td class="price-up">▲ +45</td></tr>
+          <tr><td>🍚 Paddy (Common)</td><td>Punjab</td><td>2,280</td><td>2,300</td><td class="price-down">▼ -20</td></tr>
+          <tr><td>🌽 Maize</td><td>Maharashtra</td><td>1,980</td><td>2,090</td><td class="price-up">▲ +60</td></tr>
+          <tr><td>🫘 Soybean</td><td>MP</td><td>4,820</td><td>4,892</td><td class="price-down">▼ -35</td></tr>
+          <tr><td>🧅 Onion</td><td>Nashik</td><td>3,200</td><td>—</td><td class="price-up">▲ +180</td></tr>
+          <tr><td>🍅 Tomato</td><td>Bengaluru</td><td>1,400</td><td>—</td><td class="price-down">▼ -200</td></tr>
+          <tr><td>🫘 Tur Dal</td><td>Latur</td><td>7,100</td><td>7,000</td><td class="price-up">▲ +100</td></tr>
+          <tr><td>🌿 Cotton</td><td>Vidarbha</td><td>6,900</td><td>7,121</td><td class="price-down">▼ -50</td></tr>
+          <tr><td>🌻 Sunflower</td><td>Karnataka</td><td>5,940</td><td>7,280</td><td class="price-up">▲ +20</td></tr>
+          <tr><td>🌾 Bajra</td><td>Rajasthan</td><td>2,500</td><td>2,625</td><td class="price-up">▲ +30</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- SOIL HEALTH -->
+    <div class="section" id="sec-soil">
+      <div class="page-title"><h2>🧪 Soil Health Card Scheme</h2><p>Free soil testing and crop-specific nutrient recommendations</p></div>
+      <div style="background:#fff;border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:16px">
+        <h4 style="font-size:14px;margin-bottom:12px">What is Tested?</h4>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px">
+          <div style="padding:12px;background:var(--green4);border-radius:8px;font-size:13px;color:var(--green)">🌱 N-P-K (Macro Nutrients)</div>
+          <div style="padding:12px;background:#fff3e0;border-radius:8px;font-size:13px;color:#e65100">⚗️ S, Zn, Fe, Cu, Mn, B</div>
+          <div style="padding:12px;background:#e3f2fd;border-radius:8px;font-size:13px;color:#1565c0">🔬 Soil pH & EC</div>
+          <div style="padding:12px;background:#fce4ec;border-radius:8px;font-size:13px;color:#c62828">🌍 Organic Carbon</div>
+        </div>
+        <h4 style="margin:16px 0 8px;font-size:14px">How to Get Your Soil Health Card</h4>
+        <ul style="font-size:13px;color:var(--muted);padding-left:18px;line-height:2">
+          <li>Visit nearest Krishi Vigyan Kendra (KVK) or Agriculture Department office</li>
+          <li>Carry land records and Aadhaar card</li>
+          <li>Collect soil sample from your field (0-15 cm depth)</li>
+          <li>Results delivered within 15 days — card valid for 3 years</li>
+          <li>Visit soilhealth.dac.gov.in to download your card</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- HELPLINE -->
+    <div class="section" id="sec-helpline">
+      <div class="page-title"><h2>📞 Farmer Helpline Numbers</h2><p>Get expert help anytime from government agriculture services</p></div>
+      <div style="display:grid;gap:12px">
+        <div style="background:#fff;border:1px solid var(--border);border-radius:10px;padding:16px;display:flex;align-items:center;gap:14px"><div style="font-size:28px">📞</div><div><h4 style="font-size:14px;font-weight:600;color:var(--green)">Kisan Call Centre — 1800-180-1551</h4><p style="font-size:12px;color:var(--muted)">Free helpline • Available 6 AM – 10 PM • All 22 Indian languages</p></div></div>
+        <div style="background:#fff;border:1px solid var(--border);border-radius:10px;padding:16px;display:flex;align-items:center;gap:14px"><div style="font-size:28px">🌾</div><div><h4 style="font-size:14px;font-weight:600;color:var(--green)">PM-KISAN Helpline — 155261 / 011-24300606</h4><p style="font-size:12px;color:var(--muted)">For PM-KISAN payment issues and registration queries</p></div></div>
+        <div style="background:#fff;border:1px solid var(--border);border-radius:10px;padding:16px;display:flex;align-items:center;gap:14px"><div style="font-size:28px">🛡</div><div><h4 style="font-size:14px;font-weight:600;color:var(--green)">Fasal Bima — 1800-200-7710</h4><p style="font-size:12px;color:var(--muted)">Crop insurance claim registration and status enquiry</p></div></div>
+        <div style="background:#fff;border:1px solid var(--border);border-radius:10px;padding:16px;display:flex;align-items:center;gap:14px"><div style="font-size:28px">💧</div><div><h4 style="font-size:14px;font-weight:600;color:var(--green)">Soil Health Card — 1800-180-1551</h4><p style="font-size:12px;color:var(--muted)">Soil testing, card download and nutrient management queries</p></div></div>
+        <div style="background:#fff;border:1px solid var(--border);border-radius:10px;padding:16px;display:flex;align-items:center;gap:14px"><div style="font-size:28px">🌐</div><div><h4 style="font-size:14px;font-weight:600;color:var(--green)">e-NAM — 1800-270-0224</h4><p style="font-size:12px;color:var(--muted)">National Agriculture Market — online mandi trading platform</p></div></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+const policies=[
+  {cat:'subsidy',tag:'tag-subsidy',tagName:'Subsidy',title:'PM-KISAN — Pradhan Mantri Kisan Samman Nidhi',desc:'₹6,000 annual income support in 3 instalments directly to farmer bank accounts.',budget:'₹60,000 Cr/year',beneficiary:'Small & marginal farmers',details:['All landholding farmers eligible','₹2,000 per instalment, 3 times a year','Direct DBT to Aadhaar-linked accounts','Register at pmkisan.gov.in or CSC']},
+  {cat:'insurance',tag:'tag-insurance',tagName:'Insurance',title:'PM Fasal Bima Yojana — Crop Insurance',desc:'Comprehensive crop insurance with low premium rates. Coverage for natural calamities, pests, and post-harvest losses.',budget:'₹16,000 Cr/year',beneficiary:'All crop farmers',details:['Premium: 1.5-2% for Kharif, 1.5% for Rabi','Coverage: storm, flood, drought, disease','Post-harvest coverage up to 14 days','Apply through bank or insurance company']},
+  {cat:'loan',tag:'tag-loan',tagName:'Loan & Credit',title:'Kisan Credit Card (KCC)',desc:'Short-term credit up to ₹3 lakh at 4% interest rate. Covers seeds, fertilizers, and crop expenses.',budget:'₹2 Lakh Cr (credit flow)',beneficiary:'All farmers',details:['4% effective interest with 3% govt subsidy','Loan up to ₹3 lakh without collateral','Valid for 5 years, renewable annually','Apply at any nationalized or cooperative bank']},
+  {cat:'subsidy',tag:'tag-subsidy',tagName:'Subsidy',title:'PM Kisan Maandhan Yojana — Pension Scheme',desc:'Monthly pension of ₹3,000 after age 60 for small and marginal farmers. Voluntary and contributory.',budget:'₹900 Cr',beneficiary:'Small & marginal farmers 18-40 years',details:['Monthly pension ₹3,000 after 60 years','Equal contribution by govt and farmer','Entry age: 18-40 years','Enroll at CSC with Aadhaar']},
+  {cat:'infra',tag:'tag-infra',tagName:'Infrastructure',title:'PM Kisan SAMPADA Yojana',desc:'Integrated food processing infra scheme. Mega Food Parks, Cold Chain, Agro Processing Clusters.',budget:'₹6,000 Cr',beneficiary:'Farmer Producer Organisations (FPOs)',details:['Mega Food Park subsidy up to ₹50 Cr','Cold chain infra grants','Agro processing cluster support','Creation of farm-to-market infrastructure']},
+  {cat:'crop',tag:'tag-crop',tagName:'Crop Support',title:'National Food Security Mission (NFSM)',desc:'Increase production of rice, wheat, pulses, and coarse cereals through area expansion and productivity enhancement.',budget:'₹4,598 Cr',beneficiary:'Farmers in targeted districts',details:['Free/subsidized HYV seeds','Demonstrations and training camps','Farm machinery subsidy','INM and IPM promotion']},
+  {cat:'subsidy',tag:'tag-subsidy',tagName:'Subsidy',title:'Soil Health Card Scheme',desc:'Free soil testing and crop-specific fertilizer recommendations to improve soil health and reduce input costs.',budget:'₹ 568 Cr',beneficiary:'All 14 crore farmer families',details:['Free soil testing at KVK/Agri dept','Report in 15 days — valid 3 years','12 nutrient parameters tested','Download at soilhealth.dac.gov.in']},
+  {cat:'infra',tag:'tag-infra',tagName:'Infrastructure',title:'PM-KUSUM — Solar for Agriculture',desc:'Solar pumps and grid-connected solar power for farmers to reduce electricity costs and generate income.',budget:'₹34,422 Cr',beneficiary:'Farmers with pump sets',details:['Solar pump capacity 7.5 HP subsidy 60%','Grid-connected solar plants for extra income','2 MW capacity per farmer land parcel','Apply via DISCOM or state nodal agency']},
+  {cat:'loan',tag:'tag-loan',tagName:'Loan & Credit',title:'Agricultural Infrastructure Fund (AIF)',desc:'Medium-long term debt financing for post-harvest management infra and community farming assets.',budget:'₹1 Lakh Cr credit',beneficiary:'FPOs, PACS, cooperatives, agri-entrepreneurs',details:['Interest subvention 3% per annum','Credit guarantee coverage up to ₹2 Cr','Eligible: warehouses, cold stores, sorting-grading','Apply at participating banks/MFIs']},
+  {cat:'crop',tag:'tag-crop',tagName:'Crop Support',title:'eNAM — National Agriculture Market',desc:'Pan-India electronic trading portal for agricultural commodities. Transparent price discovery.',budget:'₹839 Cr',beneficiary:'Farmers, traders, FPOs',details:['1,361 mandis connected across India','Online bidding for better price discovery','Free registration for farmers','Download eNAM app or visit enam.gov.in']},
+];
+
+let activeCat='all';
+function renderPolicies(list){
+  const el=document.getElementById('policyList');
+  el.innerHTML=list.map((p,i)=>`<div class="policy-card" data-cat="${p.cat}"><div class="policy-header"><div><h4>${p.title}</h4><p>${p.desc}</p></div><span class="policy-tag ${p.tag}">${p.tagName}</span></div><div class="policy-meta"><span>💰 ${p.budget}</span><span>👥 ${p.beneficiary}</span></div><div class="policy-detail" id="pd${i}"><strong>Key Features:</strong><ul>${p.details.map(d=>`<li>${d}</li>`).join('')}</ul></div><button style="margin-top:8px;padding:4px 12px;border:1px solid var(--green3);background:#fff;border-radius:14px;font-size:11px;cursor:pointer;font-family:inherit;color:var(--green)" onclick="toggleDetail('pd${i}',this)">▼ See Details</button></div>`).join('');
+}
+function toggleDetail(id,btn){
+  const el=document.getElementById(id);
+  el.classList.toggle('open');
+  btn.textContent=el.classList.contains('open')?'▲ Hide Details':'▼ See Details';
+}
+function filterPolicies(q){
+  const list=policies.filter(p=>(activeCat==='all'||p.cat===activeCat)&&(p.title.toLowerCase().includes(q.toLowerCase())||p.desc.toLowerCase().includes(q.toLowerCase())));
+  renderPolicies(list);
+}
+function filterCat(cat,btn){
+  activeCat=cat;
+  document.querySelectorAll('.pf-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  filterPolicies(document.getElementById('policySearch').value);
+}
+renderPolicies(policies);
+
+function nav(id){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.sb-item').forEach(s=>s.classList.remove('active'));
+  document.getElementById('sec-'+id).classList.add('active');
+  const sb=document.getElementById('sb-'+id);
+  if(sb)sb.classList.add('active');
+}
+
+// FILE UPLOAD
+let uploadedFile=null;
+function handleFile(e){
+  const file=e.target.files[0];
+  if(!file)return;
+  uploadedFile=file;
+  const reader=new FileReader();
+  reader.onload=ev=>{
+    document.getElementById('previewImg').src=ev.target.result;
+    document.getElementById('previewArea').style.display='block';
+    document.getElementById('resultArea').innerHTML='';
+  };
+  reader.readAsDataURL(file);
+}
+
+async function analyzeCrop(){
+  if(!uploadedFile)return;
+  const btn=document.getElementById('analyzeBtn');
+  btn.disabled=true;
+  btn.innerHTML='🔍 Analyzing<span class="loading-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span>';
+  document.getElementById('resultArea').innerHTML='';
+
+  const reader=new FileReader();
+  reader.onload=async ev=>{
+    const b64=ev.target.result.split(',')[1];
+    const mediaType=uploadedFile.type||'image/jpeg';
+    try{
+      const res=await fetch('https://api.anthropic.com/v1/messages',{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({
+          model:'claude-sonnet-4-20250514',
+          max_tokens:1000,
+          messages:[{role:'user',content:[
+            {type:'image',source:{type:'base64',media_type:mediaType,data:b64}},
+            {type:'text',text:`You are an expert agricultural scientist and plant pathologist. Analyze this crop/plant image and respond ONLY in JSON format like this:
+{
+  "cropName": "name of the crop",
+  "healthStatus": "Healthy / Diseased / Stressed / Pest Attack",
+  "disease": "disease name if any, else null",
+  "severity": "Mild / Moderate / Severe / None",
+  "symptoms": "2-3 sentence description of observed symptoms",
+  "causes": "main cause of the disease/issue",
+  "solutions": ["solution 1", "solution 2", "solution 3", "solution 4"],
+  "preventiveMeasures": ["measure 1", "measure 2", "measure 3"],
+  "recommendedFertilizer": "specific fertilizer recommendation",
+  "urgency": "High / Medium / Low"
+}
+If the image is not a plant/crop, set cropName to "Not a crop image" and other fields to null.`}
+          ]}]
+        })
+      });
+      const data=await res.json();
+      const text=data.content.map(c=>c.text||'').join('');
+      const clean=text.replace(/```json|```/g,'').trim();
+      const result=JSON.parse(clean);
+      showResult(result);
+    }catch(err){
+      document.getElementById('resultArea').innerHTML=`<div class="result-card" style="border-color:#f4a261"><p style="color:var(--amber);font-size:13px">⚠️ Could not analyze image. Please try again with a clearer crop photo.</p></div>`;
+    }
+    btn.disabled=false;
+    btn.innerHTML='🔍 Analyze with AI';
+  };
+  reader.readAsDataURL(uploadedFile);
+}
+
+function showResult(r){
+  if(r.cropName==='Not a crop image'){
+    document.getElementById('resultArea').innerHTML=`<div class="result-card"><p style="font-size:13px;color:var(--muted)">⚠️ This doesn't appear to be a crop image. Please upload a photo of a plant or crop leaf/stem/fruit.</p></div>`;
+    return;
+  }
+  const statusColor=r.healthStatus==='Healthy'?'#2e7d32':(r.severity==='Severe'?'#c62828':'#e65100');
+  const statusBg=r.healthStatus==='Healthy'?'#e8f5e9':(r.severity==='Severe'?'#ffebee':'#fff3e0');
+  const urgBg=r.urgency==='High'?'#ffebee':r.urgency==='Medium'?'#fff3e0':'#e8f5e9';
+  const urgColor=r.urgency==='High'?'#c62828':r.urgency==='Medium'?'#e65100':'#2e7d32';
+  document.getElementById('resultArea').innerHTML=`
+    <div class="result-card">
+      <div class="result-header">
+        <div class="result-icon">🌿</div>
+        <div class="result-title"><h3>${r.cropName}</h3><p>${r.disease||'No disease detected'}</p></div>
+        <div style="margin-left:auto;display:flex;flex-direction:column;gap:5px;text-align:right">
+          <span style="background:${statusBg};color:${statusColor};font-size:11px;font-weight:600;padding:3px 10px;border-radius:10px">${r.healthStatus}</span>
+          ${r.urgency?`<span style="background:${urgBg};color:${urgColor};font-size:11px;font-weight:600;padding:3px 10px;border-radius:10px">Urgency: ${r.urgency}</span>`:''}
+        </div>
+      </div>
+      ${r.symptoms?`<div class="result-section"><h4>Observed Symptoms</h4><p>${r.symptoms}</p></div>`:''}
+      ${r.causes?`<div class="result-section"><h4>Cause</h4><p>${r.causes}</p></div>`:''}
+      ${r.solutions&&r.solutions.length?`<div class="result-section"><h4>Recommended Solutions</h4><ul class="remedy-list">${r.solutions.map(s=>`<li>${s}</li>`).join('')}</ul></div>`:''}
+      ${r.preventiveMeasures&&r.preventiveMeasures.length?`<div class="result-section"><h4>Preventive Measures</h4><ul class="remedy-list">${r.preventiveMeasures.map(s=>`<li>${s}</li>`).join('')}</ul></div>`:''}
+      ${r.recommendedFertilizer?`<div class="result-section"><h4>Fertilizer Recommendation</h4><p>${r.recommendedFertilizer}</p></div>`:''}
+      <button onclick="nav('chatbot')" style="margin-top:8px;padding:8px 18px;background:var(--green);color:#fff;border:none;border-radius:8px;font-size:13px;cursor:pointer;font-family:inherit">💬 Ask Kisan Bot for more help</button>
+    </div>`;
+}
+
+// CHATBOT
+const chatHistory=[];
+async function sendChat(){
+  const input=document.getElementById('chatInput');
+  const msg=input.value.trim();
+  if(!msg)return;
+  addMsg(msg,'user');
+  input.value='';
+  document.getElementById('quickBtns').style.display='none';
+  const typingId='typing-'+Date.now();
+  const msgs=document.getElementById('chatMsgs');
+  msgs.innerHTML+=`<div class="msg bot" id="${typingId}"><div class="msg-bubble">Thinking<span class="loading-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></div></div>`;
+  msgs.scrollTop=msgs.scrollHeight;
+  chatHistory.push({role:'user',content:msg});
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-20250514',
+        max_tokens:1000,
+        system:`You are Kisan AI Assistant, an expert on Indian agriculture. Help farmers with:
+- Government schemes (PM-KISAN, PMFBY, KCC, NFSM, AIF, eNAM, Soil Health Card, PM-KUSUM, etc.)
+- Crop diseases, pests, fertilizers, and farming advice
+- MSP rates and mandi prices
+- Loan and subsidy guidance
+- Soil health and irrigation
+Always respond in a friendly, simple manner. Use simple English mixed with Hindi terms farmers understand. Keep answers concise and practical. If asked about schemes, mention eligibility and how to apply.`,
+        messages:chatHistory
+      })
+    });
+    const data=await res.json();
+    const reply=data.content.map(c=>c.text||'').join('');
+    chatHistory.push({role:'assistant',content:reply});
+    document.getElementById(typingId)?.remove();
+    addMsg(reply,'bot');
+  }catch(e){
+    document.getElementById(typingId)?.remove();
+    addMsg('Sorry, I am unable to connect right now. Please try the helpline: 1800-180-1551','bot');
+  }
+}
+function addMsg(text,role){
+  const msgs=document.getElementById('chatMsgs');
+  const time=new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+  msgs.innerHTML+=`<div class="msg ${role}"><div class="msg-bubble">${text.replace(/\n/g,'<br>')}</div><div class="msg-time">${time}</div></div>`;
+  msgs.scrollTop=msgs.scrollHeight;
+}
+function sendQuick(msg){
+  document.getElementById('chatInput').value=msg;
+  sendChat();
+}
+
+// Drag drop
+const uz=document.getElementById('uploadZone');
+uz.addEventListener('dragover',e=>{e.preventDefault();uz.classList.add('drag')});
+uz.addEventListener('dragleave',()=>uz.classList.remove('drag'));
+uz.addEventListener('drop',e=>{e.preventDefault();uz.classList.remove('drag');const f=e.dataTransfer.files[0];if(f&&f.type.startsWith('image/')){const dt=new DataTransfer();dt.items.add(f);document.getElementById('fileInput').files=dt.files;handleFile({target:{files:[f]}})}});
+</script>
